@@ -178,6 +178,7 @@ static PyMethodDef unreal_engine_methods[] = {
 	{ "create_checkerboard_texture", py_unreal_engine_create_checkerboard_texture, METH_VARARGS, "" },
 	{ "create_transient_texture", py_unreal_engine_create_transient_texture, METH_VARARGS, "" },
 	{ "create_transient_texture_render_target2d", py_unreal_engine_create_transient_texture_render_target2d, METH_VARARGS, "" },
+	{ "render_target_export_as_hdr", py_unreal_engine_render_target_export_as_hdr, METH_VARARGS, "" },
 #if WITH_EDITOR
 	{ "create_texture", py_unreal_engine_create_texture, METH_VARARGS, "" },
 #endif

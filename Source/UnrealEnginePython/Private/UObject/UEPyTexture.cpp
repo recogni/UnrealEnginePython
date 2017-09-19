@@ -1,5 +1,6 @@
 #include "UnrealEnginePythonPrivatePCH.h"
 
+#include "Runtime/Core/Public/HAL/FileManager.h"
 #include "Runtime/Engine/Public/ImageUtils.h"
 #include "Runtime/Engine/Classes/Engine/Texture.h"
 
@@ -251,6 +252,31 @@ PyObject *py_unreal_engine_create_transient_texture_render_target2d(PyObject * s
 		return PyErr_Format(PyExc_Exception, "uobject is in invalid state");
 	Py_INCREF(ret);
 	return (PyObject *)ret;
+}
+
+PyObject *py_unreal_engine_render_target_export_as_hdr(PyObject * self , PyObject * args) {
+
+	Py_buffer py_buf;
+	char *filename;
+  
+	ue_py_check(self);
+  
+	if(!PyArg_ParseTuple(args, "s:export_render_target2d_as_hdr", &filename)) {
+		return nullptr;
+	}
+
+	UTextureRenderTarget2D *tex = ue_py_check_type<UTextureRenderTarget2D>(self);
+	if (!tex)
+		return PyErr_Format(PyExc_Exception, "object is not a TextureRenderTarget");
+
+	FArchive *fa = FFileManagerGeneric::CreateFileWrite(filename, FILEWRITE_None);
+	if(!fa)
+		return PyErr_Format(PyExc_Exception, "can't create FileWriter");
+  
+	if(!FImageUtils::ExportRenderTarget2DAsHDR(tex,fa))
+		return PyErr_Format(PyExc_Exception, "HDR export failed");
+
+	Py_RETURN_NONE;
 }
 
 #if WITH_EDITOR

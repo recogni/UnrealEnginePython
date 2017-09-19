@@ -16,6 +16,7 @@ PyObject *py_unreal_engine_create_checkerboard_texture(PyObject *, PyObject *);
 
 PyObject *py_unreal_engine_create_transient_texture(PyObject *, PyObject *);
 PyObject *py_unreal_engine_create_transient_texture_render_target2d(PyObject *, PyObject *);
+PyObject *py_unreal_engine_render_target_export_as_hdr(PyObject *, PyObject *);
 
 PyObject *py_ue_texture_update_resource(ue_PyUObject *, PyObject *);
 
