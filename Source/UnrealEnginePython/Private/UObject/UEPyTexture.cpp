@@ -254,26 +254,27 @@ PyObject *py_unreal_engine_create_transient_texture_render_target2d(PyObject * s
 	return (PyObject *)ret;
 }
 
-PyObject *py_unreal_engine_render_target_export_as_hdr(PyObject * self , PyObject * args) {
+PyObject *py_ue_render_target2d_export_as_hdr(ue_PyUObject * self , PyObject * args) {
 
-	Py_buffer py_buf;
-	char *filename;
-  
 	ue_py_check(self);
-  
-	if(!PyArg_ParseTuple(args, "s:export_render_target2d_as_hdr", &filename)) {
+	
+	char *filename;
+
+	if(!PyArg_ParseTuple(args, "s:render_target2d_export_as_hdr", &filename)) {
 		return nullptr;
 	}
 
+	FString fn = filename;
+	
 	UTextureRenderTarget2D *tex = ue_py_check_type<UTextureRenderTarget2D>(self);
 	if (!tex)
-		return PyErr_Format(PyExc_Exception, "object is not a TextureRenderTarget");
+		return PyErr_Format(PyExc_Exception, "object is not a TextureRenderTarget2D");
 
-	FArchive *fa = FFileManagerGeneric::CreateFileWrite(filename, FILEWRITE_None);
+	FArchive *fa = IFileManager::Get().CreateFileWriter(*fn);
 	if(!fa)
 		return PyErr_Format(PyExc_Exception, "can't create FileWriter");
   
-	if(!FImageUtils::ExportRenderTarget2DAsHDR(tex,fa))
+	if(!FImageUtils::ExportRenderTarget2DAsHDR(tex,*fa))
 		return PyErr_Format(PyExc_Exception, "HDR export failed");
 
 	Py_RETURN_NONE;
