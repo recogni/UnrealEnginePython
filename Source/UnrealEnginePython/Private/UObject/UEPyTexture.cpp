@@ -273,10 +273,18 @@ PyObject *py_ue_render_target2d_export_as_hdr(ue_PyUObject * self , PyObject * a
 	FArchive *fa = IFileManager::Get().CreateFileWriter(*fn);
 	if(!fa)
 		return PyErr_Format(PyExc_Exception, "can't create FileWriter");
-  
-	if(!FImageUtils::ExportRenderTarget2DAsHDR(tex,*fa))
+
+	FBufferArchive Buffer;
+
+	if(!FImageUtils::ExportRenderTarget2DAsHDR(tex, Buffer))
 		return PyErr_Format(PyExc_Exception, "HDR export failed");
 
+	fa->Serialize(const_cast<uint8*>(Buffer.GetData()), Buffer.Num());
+
+	if(fa) {
+		delete fa;
+	}
+	
 	Py_RETURN_NONE;
 }
 
