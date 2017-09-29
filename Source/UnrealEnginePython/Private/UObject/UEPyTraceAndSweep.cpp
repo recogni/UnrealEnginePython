@@ -124,17 +124,17 @@ PyObject *py_ue_draw_debug_line(ue_PyUObject * self, PyObject * args) {
 
 	PyObject *py_obj_start;
 	PyObject *py_obj_end;
-	uint8 r = 1, g = 0, b = 0;
-	float duration = 0;
+	uint8 r = 1, g = 0, b = 0, a = 1;
+	float duration  = 0.0;
+	float thickness = 0.0;
 
 	UWorld *world = ue_get_uworld(self);
 	if (!world)
 		return PyErr_Format(PyExc_Exception, "unable to retrieve UWorld from uobject");
 
 
-	if (!PyArg_ParseTuple(args, "OO|iiif:draw_debug_line", &py_obj_start, &py_obj_end, &r, &g, &b, &duration)) {
+	if (!PyArg_ParseTuple(args, "OO|iiiiff:draw_debug_line", &py_obj_start, &py_obj_end, &r, &g, &b, &a, &duration, &thickness))
 		return NULL;
-	}
 
 	ue_PyFVector *start = py_ue_is_fvector(py_obj_start);
 	ue_PyFVector *end = py_ue_is_fvector(py_obj_end);
@@ -142,7 +142,14 @@ PyObject *py_ue_draw_debug_line(ue_PyUObject * self, PyObject * args) {
 	if (!start || !end)
 		return PyErr_Format(PyExc_Exception, "start and end location must be vectors");
 
-	UKismetSystemLibrary::DrawDebugLine(world, start->vec, end->vec, FColor(r, g, b), false, duration);
+	FLinearColor lineColor = FLinearColor(
+		float(r)/255.0, float(g)/255.0, float(b)/255.0, float(a)/255.0);
+
+	UKismetSystemLibrary::DrawDebugLine(
+		world,
+		start->vec, end->vec,
+		lineColor,
+		duration, thickness);
 
 	Py_INCREF(Py_None);
 	return Py_None;
