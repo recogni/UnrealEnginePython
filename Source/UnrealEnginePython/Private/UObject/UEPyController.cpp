@@ -1,5 +1,6 @@
 #include "UnrealEnginePythonPrivatePCH.h"
-
+#include "PythonComponent.h"
+#include "UEPyObject.h"
 
 PyObject *py_ue_controller_posses(ue_PyUObject * self, PyObject * args) {
 
@@ -74,4 +75,27 @@ PyObject *py_ue_get_controlled_pawn(ue_PyUObject * self, PyObject * args) {
 		return PyErr_Format(PyExc_Exception, "uobject is in invalid state");
 	Py_INCREF(ret);
 	return (PyObject *)ret;
+}
+
+PyObject *py_ue_controller_project_world_location_to_screen(ue_PyUObject * self, PyObject * args) {
+
+	ue_py_check(self);
+
+	PyObject *py_obj_point;
+	bool isRelative = false;
+
+	APlayerController *controller = ue_py_check_type<APlayerController>(self);
+	if (!controller)
+		return PyErr_Format(PyExc_Exception, "uobject is not an AController");
+
+	if (!PyArg_ParseTuple(args, "O|b:project_world_location_to_screen", &py_obj_point, , &isRelative))
+		return NULL;
+
+	ue_PyFVector *point = py_ue_is_fvector(py_obj_point);
+
+	// TODO: Check return value:
+	FVector2D screenLocation;
+	controller->ProjectWorldLocationToScreen(point->vec, &screenLocation, isRelative);
+
+	return Py_BuildValue("(ff)", screenLocation.X, screenLocation.Y);
 }
