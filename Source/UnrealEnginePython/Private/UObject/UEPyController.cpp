@@ -88,14 +88,14 @@ PyObject *py_ue_controller_project_world_location_to_screen(ue_PyUObject * self,
 	if (!controller)
 		return PyErr_Format(PyExc_Exception, "uobject is not an AController");
 
-	if (!PyArg_ParseTuple(args, "O|b:project_world_location_to_screen", &py_obj_point, , &isRelative))
+	if (!PyArg_ParseTuple(args, "O|b:project_world_location_to_screen", &py_obj_point, &isRelative))
 		return NULL;
 
 	ue_PyFVector *point = py_ue_is_fvector(py_obj_point);
 
 	// TODO: Check return value:
 	FVector2D screenLocation;
-	controller->ProjectWorldLocationToScreen(point->vec, &screenLocation, isRelative);
+	controller->ProjectWorldLocationToScreen(point->vec, screenLocation, isRelative);
 
 	return Py_BuildValue("(ff)", screenLocation.X, screenLocation.Y);
 }
