@@ -33,7 +33,11 @@ PyObject *py_ue_ivoice_capture_init_method(ue_PyIVoiceCapture *self, PyObject * 
 		return nullptr;
 	}
 
+#if ENGINE_MINOR_VERSION <= 17       
 	if (self->voice_capture->Init(sample_rate, channels)) {
+#else
+	if (self->voice_capture->Init(FString(""), sample_rate, channels)) {		
+#endif		
 		Py_RETURN_TRUE;
 	}
 

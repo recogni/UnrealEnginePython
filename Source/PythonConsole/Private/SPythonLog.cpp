@@ -349,7 +349,9 @@ FPythonLogTextLayoutMarshaller::FPythonLogTextLayoutMarshaller(TArray< TSharedPt
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SPythonLog::Construct(const FArguments& InArgs)
 {
-	MessagesTextMarshaller = FPythonLogTextLayoutMarshaller::Create(MoveTemp(InArgs._Messages));
+	FArguments Args = InArgs;
+	
+	MessagesTextMarshaller = FPythonLogTextLayoutMarshaller::Create(MoveTemp(Args._Messages));
 
 	MessagesTextBox = SNew(SMultiLineEditableTextBox)
 		.Style(FEditorStyle::Get(), "Log.TextBox")

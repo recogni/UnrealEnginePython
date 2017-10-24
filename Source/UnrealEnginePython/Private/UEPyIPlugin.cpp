@@ -63,7 +63,11 @@ static PyObject *py_ue_iplugin_to_json(ue_PyIPlugin *self, PyObject * args) {
 #if ENGINE_MINOR_VERSION < 14
 	text = descriptor.ToString();
 #else
+#if ENGINE_MINOR_VERSION < 17
 	descriptor.Write(text, enabled_by_default);
+#else
+	descriptor.Write(text);
+#endif	
 #endif
 
 	return PyUnicode_FromString(TCHAR_TO_UTF8(*text));
@@ -85,7 +89,7 @@ static PyObject *py_ue_iplugin_from_json(ue_PyIPlugin *self, PyObject * args) {
 	FText error;
 	FString text = FString(UTF8_TO_TCHAR(json));
 	FPluginDescriptor descriptor = self->plugin->GetDescriptor();
-#if ENGINE_MINOR_VERSION < 14
+#if ((ENGINE_MINOR_VERSION < 14) || (ENGINE_MINOR_VERSION >17))
 	if (!descriptor.Read(text, error)) {
 #else
 	if (!descriptor.Read(text, enabled_by_default, error)) {
@@ -124,6 +128,7 @@ static PyObject *py_ue_iplugin_get_can_contain_content(ue_PyIPlugin *self, void 
 	return Py_False;
 }
 
+#if ENGINE_MINOR_VERSION <= 17
 static PyObject *py_ue_iplugin_get_enabled_by_default(ue_PyIPlugin *self, void *closure) {
 	if (self->plugin->GetDescriptor().bEnabledByDefault) {
 		Py_INCREF(Py_True);
@@ -133,7 +138,8 @@ static PyObject *py_ue_iplugin_get_enabled_by_default(ue_PyIPlugin *self, void *
 	Py_INCREF(Py_False);
 	return Py_False;
 }
-
+#endif
+ 
 static PyObject *py_ue_iplugin_get_installed(ue_PyIPlugin *self, void *closure) {
 	if (self->plugin->GetDescriptor().bInstalled) {
 		Py_INCREF(Py_True);
@@ -186,9 +192,11 @@ static PyObject *py_ue_iplugin_version_name(ue_PyIPlugin *self, void *closure) {
 	return PyUnicode_FromString(TCHAR_TO_UTF8(*(self->plugin->GetDescriptor().VersionName)));
 }
 
+#if ENGINE_MINOR_VERSION <= 17
 static PyObject *py_ue_iplugin_file_version(ue_PyIPlugin *self, void *closure) {
 	return PyLong_FromLong(self->plugin->GetDescriptor().FileVersion);
 }
+#endif
 
 static PyObject *py_ue_iplugin_version(ue_PyIPlugin *self, void *closure) {
 	return PyLong_FromLong(self->plugin->GetDescriptor().Version);
@@ -207,7 +215,9 @@ static PyObject *py_ue_iplugin_get_requires_build_platform(ue_PyIPlugin *self, v
 static PyGetSetDef ue_PyIPlugin_getseters[] = {
 	{ (char*)"category", (getter)py_ue_iplugin_get_category, NULL, (char *)"", NULL },
 	{ (char*)"can_contain_content", (getter)py_ue_iplugin_get_can_contain_content, NULL, (char *)"", NULL },
+#if ENGINE_MINOR_VERSION <= 17	
 	{ (char*)"enabled_by_default", (getter)py_ue_iplugin_get_enabled_by_default, NULL, (char *)"", NULL },
+#endif	
 	{ (char*)"installed", (getter)py_ue_iplugin_get_installed, NULL, (char *)"", NULL },
 	{ (char*)"is_beta_version", (getter)py_ue_iplugin_get_is_beta_version, NULL, (char *)"", NULL },
 	{ (char*)"requires_build_platform", (getter)py_ue_iplugin_get_requires_build_platform, NULL, (char *)"", NULL },
@@ -215,7 +225,9 @@ static PyGetSetDef ue_PyIPlugin_getseters[] = {
 	{ (char*)"created_by_url", (getter)py_ue_iplugin_created_by_url, NULL, (char *)"", NULL },
 	{ (char*)"description", (getter)py_ue_iplugin_description, NULL, (char *)"", NULL },
 	{ (char*)"docs_url", (getter)py_ue_iplugin_docs_url, NULL, (char *)"", NULL },
+#if ENGINE_MINOR_VERSION <= 17	
 	{ (char*)"file_version", (getter)py_ue_iplugin_file_version, NULL, (char *)"", NULL },
+#endif	
 	{ (char*)"friendly_name", (getter)py_ue_iplugin_friendly_name, NULL, (char *)"", NULL },
 	{ (char*)"marketplace_url", (getter)py_ue_iplugin_marketplace_url, NULL, (char *)"", NULL },
 	{ (char*)"support_url", (getter)py_ue_iplugin_support_url, NULL, (char *)"", NULL },
