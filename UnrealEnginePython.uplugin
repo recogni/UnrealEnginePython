@@ -36,5 +36,9 @@
       "Name": "LevelSequenceEditor",
       "Enabled": true
     }
+    {
+      "Name": "ApexDestruction",
+      "Enabled": true
+    }
   ]
 }

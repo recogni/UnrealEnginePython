@@ -3374,7 +3374,7 @@ UFunction *unreal_engine_add_function(UClass *u_class, char *name, PyObject *py_
 #if ENGINE_MINOR_VERSION <= 17
 	u_class->AddFunctionToFunctionMap(function);
 #else 
-	u_class->AddFunctionToFunctionMap(function, FName(name))
+	u_class->AddFunctionToFunctionMap(function, FName(name));
 #endif
 	u_class->Bind();
 	u_class->StaticLink(true);
