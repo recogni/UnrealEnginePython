@@ -1,5 +1,6 @@
 #include "UnrealEnginePythonPrivatePCH.h"
 
+#include "DestructibleComponent.h"
 
 PyObject *py_ue_set_simulate_physics(ue_PyUObject * self, PyObject * args)
 {
