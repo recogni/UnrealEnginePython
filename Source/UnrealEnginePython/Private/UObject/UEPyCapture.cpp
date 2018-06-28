@@ -1,6 +1,8 @@
 #include "UEPyCapture.h"
 
 #include "Runtime/MovieSceneCapture/Public/MovieSceneCapture.h"
+#include "Serialization/ObjectReader.h"
+#include "Serialization/ObjectWriter.h"
 
 #if WITH_EDITOR
 

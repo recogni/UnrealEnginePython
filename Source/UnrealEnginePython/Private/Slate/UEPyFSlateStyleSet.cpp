@@ -1,5 +1,6 @@
 
 #include "UEPyFSlateStyleSet.h"
+#include "Styling/SlateStyleRegistry.h"
 #include "Styling/SlateTypes.h"
 #include "Containers/Map.h"
 

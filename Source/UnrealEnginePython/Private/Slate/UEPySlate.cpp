@@ -24,6 +24,8 @@
 #include "Runtime/AppFramework/Public/Widgets/Colors/SColorPicker.h"
 
 #include "UEPySlate.h"
+#include "Styling/SlateStyleRegistry.h"
+
 #include "PyNativeWidgetHost.h"
 
 #include "Wrappers/UEPyFAssetData.h"

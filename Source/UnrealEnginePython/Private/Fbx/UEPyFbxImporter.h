@@ -3,7 +3,7 @@
 
 #if WITH_EDITOR
 
-#include <fbxsdk.h>
+#include "fbxsdk_wrapper.h"
 
 struct ue_PyFbxImporter
 {

@@ -2,6 +2,7 @@
 
 #include "UEPySNumericEntryBox.h"
 
+#include "Widgets/Input/SNumericEntryBox.h"
 
 static PyMethodDef ue_PySNumericEntryBox_methods[] = {
 	{ NULL }  /* Sentinel */

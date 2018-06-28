@@ -2707,7 +2707,7 @@ PyObject *py_ue_ufunction_call(UFunction *u_function, UObject *u_obj, PyObject *
 		{
 			if (!prop->IsInContainer(u_function->ParmsSize))
 			{
-				return PyErr_Format(PyExc_Exception, "Attempting to import func param property that's out of bounds. %s", *u_function->GetName());
+				return PyErr_Format(PyExc_Exception, "Attempting to import func param property that's out of bounds. %S", *u_function->GetName());
 			}
 #if WITH_EDITOR
 			FString default_key = FString("CPP_Default_") + prop->GetName();

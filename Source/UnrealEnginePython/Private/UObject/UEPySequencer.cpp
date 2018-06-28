@@ -726,6 +726,7 @@ PyObject *py_ue_sequencer_section_add_key(ue_PyUObject *self, PyObject * args)
 
 	UMovieSceneSection *section = (UMovieSceneSection *)self->ue_object;
 
+#if ENGINE_MINOR_VERSION < 20	
 	if (auto section_float = Cast<UMovieSceneFloatSection>(section))
 	{
 		if (PyNumber_Check(py_value))
@@ -799,6 +800,7 @@ PyObject *py_ue_sequencer_section_add_key(ue_PyUObject *self, PyObject * args)
 			Py_RETURN_NONE;
 		}
 	}
+#endif	
 
 	return PyErr_Format(PyExc_Exception, "unsupported section type: %s", TCHAR_TO_UTF8(*section->GetClass()->GetName()));
 }
@@ -1034,6 +1036,7 @@ PyObject *py_ue_sequencer_import_fbx_transform(ue_PyUObject *self, PyObject * ar
 {
 	ue_py_check(self);
 
+#if ENGINE_MINOR_VERSION < 20	
 	char *filename;
 	char *nodename;
 	PyObject *py_force_front_x_axis = nullptr;
@@ -1209,6 +1212,10 @@ PyObject *py_ue_sequencer_import_fbx_transform(ue_PyUObject *self, PyObject * ar
 	ImportOptions->bConvertSceneUnit = bConverteSceneUnit;
 	ImportOptions->bForceFrontXAxis = bForceFrontXAxis;
 	return PyErr_Format(PyExc_Exception, "unable to find specified node in Fbx file");
-	}
+#else
+	Py_INCREF(Py_None);	
+	return Py_None;
+#endif	
+}
 #endif
 

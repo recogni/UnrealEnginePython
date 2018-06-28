@@ -2,8 +2,6 @@
 
 #include "UEPyModule.h"
 
-#include "SlateBasics.h"
-#include "SlateExtras.h"
 
 
 #if WITH_EDITOR

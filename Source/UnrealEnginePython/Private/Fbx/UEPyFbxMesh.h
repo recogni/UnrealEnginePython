@@ -4,7 +4,7 @@
 #if WITH_EDITOR
 #if ENGINE_MINOR_VERSION > 12
 
-#include <fbxsdk.h>
+#include "fbxsdk_wrapper.h"
 
 struct ue_PyFbxMesh
 {

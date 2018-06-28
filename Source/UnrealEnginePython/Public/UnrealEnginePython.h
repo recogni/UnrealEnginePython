@@ -9,6 +9,9 @@
 
 //#define UEPY_MEMORY_DEBUG	1
 
+#undef _POSIX_C_SOURCE
+#undef _XOPEN_SOURCE
+
 #if defined(UNREAL_ENGINE_PYTHON_ON_MAC)
 #include <Headers/Python.h>
 #include <Headers/structmember.h>
