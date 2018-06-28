@@ -1,10 +1,9 @@
 #include "UEPyUserDefinedStruct.h"
 
 
-#if WITH_EDITOR && 0
+#if WITH_EDITOR
 #include "UserDefinedStructure/UserDefinedStructEditorData.h"
-#include "Public/Kismet2/StructureEditorUtils.h"
-
+#include "Editor/UnrealEd/Public/Kismet2/StructureEditorUtils.h"
 
 
 PyObject *py_ue_struct_add_variable(ue_PyUObject * self, PyObject * args)
