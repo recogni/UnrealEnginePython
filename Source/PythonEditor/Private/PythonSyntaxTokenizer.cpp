@@ -1,8 +1,7 @@
 // Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
-
-#include "PythonEditorPrivatePCH.h"
 #include "PythonSyntaxTokenizer.h"
-#include "BreakIterator.h"
+#include "PythonEditorPrivatePCH.h"
+#include "Internationalization/BreakIterator.h"
 
 TSharedRef< FPythonSyntaxTokenizer > FPythonSyntaxTokenizer::Create(TArray<FRule> InRules)
 {

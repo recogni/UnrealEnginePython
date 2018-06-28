@@ -3,8 +3,8 @@
 
 
 #include "PythonSyntaxTokenizer.h"
-#include "PlainTextLayoutMarshaller.h"
-#include "ITextDecorator.h"
+#include "Framework/Text/PlainTextLayoutMarshaller.h"
+#include "Framework/Text/ITextDecorator.h"
 
 
 class  FPYRichTextSyntaxHighlighterTextLayoutMarshaller : public FPlainTextLayoutMarshaller

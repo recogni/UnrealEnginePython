@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "WorkflowCentricApplication.h"
+#include "WorkflowOrientedApp/WorkflowCentricApplication.h"
 #include "Editor/Kismet/Public/WorkflowOrientedApp/WorkflowTabManager.h"
 #include "Runtime/Launch/Resources/Version.h"
 

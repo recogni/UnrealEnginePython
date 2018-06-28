@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "SMultiLineEditableText.h"
+#include "Widgets/Text/SMultiLineEditableText.h"
 
 class SPythonEditableText : public SMultiLineEditableText
 {

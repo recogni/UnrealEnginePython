@@ -1,8 +1,8 @@
 #include "UEPyUserDefinedStruct.h"
 
 
-#if WITH_EDITOR
-#include "Classes/UserDefinedStructure/UserDefinedStructEditorData.h"
+#if WITH_EDITOR && 0
+#include "UserDefinedStructure/UserDefinedStructEditorData.h"
 #include "Public/Kismet2/StructureEditorUtils.h"
 
 

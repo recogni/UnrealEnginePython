@@ -1,12 +1,11 @@
 // Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
-
-#include "PythonConsolePrivatePCH.h"
 #include "SPythonLog.h"
-#include "SScrollBorder.h"
+#include "PythonConsolePrivatePCH.h"
+#include "Widgets/Layout/SScrollBorder.h"
 #include "GameFramework/GameMode.h"
 #include "Engine/LocalPlayer.h"
 #include "GameFramework/GameState.h"
-#include "SSearchBox.h"
+#include "Widgets/Input/SSearchBox.h"
 #include "Runtime/Launch/Resources/Version.h"
 //#include "UnrealEnginePython.h"
 #define LOCTEXT_NAMESPACE "PythonConsole"

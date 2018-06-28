@@ -13,7 +13,7 @@
 #include "PropertyEditing.h"
 #include "UnrealEd.h"
 #include "DirectoryWatcherModule.h"
-#include "IPluginManager.h"
+#include "Interfaces/IPluginManager.h"
 
 
 /* Private includes

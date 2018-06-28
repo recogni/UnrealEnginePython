@@ -1,9 +1,8 @@
 // Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
-
-#include "PythonEditorPrivatePCH.h"
 #include "SProjectViewItem.h"
-#include "SInlineEditableTextBlock.h"
-#include "BreakIterator.h"
+#include "PythonEditorPrivatePCH.h"
+#include "Widgets/Text/SInlineEditableTextBlock.h"
+#include "Internationalization/BreakIterator.h"
 
 #define LOCTEXT_NAMESPACE "ProjectViewItem"
 

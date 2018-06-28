@@ -120,6 +120,7 @@ public class UnrealEnginePython : ModuleRules
                 "SlateCore",
                 "MovieScene",
                 "LevelSequence",
+                "LevelSequenceEditor",		
                 "HTTP",
                 "UMG",
                 "AppFramework",

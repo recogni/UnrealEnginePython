@@ -1,9 +1,9 @@
 // Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
 
 #include "PythonEditorPrivatePCH.h"
-#include "ModuleManager.h"
+#include "Modules/ModuleManager.h"
 #include "AssetToolsModule.h"
-#include "AssetEditorToolkit.h"
+#include "Toolkits/AssetEditorToolkit.h"
 #include "LevelEditor.h"
 
 static const FName PythonEditorTabName( TEXT( "PythonEditor" ) );

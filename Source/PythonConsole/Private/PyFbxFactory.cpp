@@ -1,6 +1,5 @@
-#include "PythonConsolePrivatePCH.h"
-
 #include "PyFbxFactory.h"
+#include "PythonConsolePrivatePCH.h"
 #include "FbxMeshUtils.h"
 
 UPyFbxFactory::UPyFbxFactory(const FObjectInitializer& ObjectInitializer)

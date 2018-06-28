@@ -7,7 +7,7 @@
 #include "Editor.h"
 #endif
 
-#include "Regex.h"
+#include "Internationalization/Regex.h"
 
 UPyCommandlet::UPyCommandlet(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)

@@ -1,6 +1,5 @@
-#include "PythonConsolePrivatePCH.h"
-
 #include "PythonScriptFactory.h"
+#include "PythonConsolePrivatePCH.h"
 #include "PythonScript.h"
 
 UPythonScriptFactory::UPythonScriptFactory(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {

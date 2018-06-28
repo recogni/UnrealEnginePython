@@ -26,7 +26,7 @@
 
 
 #include "CoreMinimal.h"
-#include "ModuleManager.h"
+#include "Modules/ModuleManager.h"
 #include "Styling/SlateStyle.h"
 #include "UObject/ScriptMacros.h"
 #include "Runtime/Launch/Resources/Version.h"

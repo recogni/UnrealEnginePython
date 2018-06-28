@@ -1,7 +1,7 @@
 
 #include "UEPyFSlateStyleSet.h"
-#include "SlateTypes.h"
-#include "Map.h"
+#include "Styling/SlateTypes.h"
+#include "Containers/Map.h"
 
 static PyObject *py_ue_fslate_style_set_set_content_root(ue_PyFSlateStyleSet *self, PyObject * args)
 {
