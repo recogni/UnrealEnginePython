@@ -4,6 +4,12 @@ Embed Python in Unreal Engine 4
 
 Teaser (by Kite & Lightning): https://twitter.com/KNLstudio/status/932657812466843648
 
+Fixing Mixamo RootMotion tuturial: https://github.com/20tab/UnrealEnginePython/blob/master/tutorials/FixingMixamoRootMotionWithPython.md
+
+Funny snippets for working with StaticMesh and SkeletalMesh assets: https://github.com/20tab/UnrealEnginePython/blob/master/tutorials/SnippetsForStaticAndSkeletalMeshes.md
+
+More tutorials: https://github.com/20tab/UnrealEnginePython/tree/master/tutorials
+
 # How and Why ?
 
 This is a plugin embedding a whole Python VM (versions 3.x [the default and suggested one] and 2.7) In Unreal Engine 4 (both the editor and runtime).
@@ -513,6 +519,8 @@ ts.dumb = DumbStruct(Foo=17, Bar=22)
 ts.ref().dumb.foo().Foo = 22
 ```
 
+More details here: https://github.com/20tab/UnrealEnginePython/blob/master/docs/MemoryManagement.md
+
 The ue_site.py file
 -------------------
 
@@ -789,7 +797,7 @@ Pay attention to not call app.exec_() as it will result in Qt taking control of 
 
 ```python
 
-# save is as ueqt.py
+# save it as ueqt.py
 import sys
 import unreal_engine as ue
 import PySide2
@@ -847,9 +855,13 @@ widget = MyWidget()
 widget.resize(800, 600)
 widget.show()
 
+root_window = ue.get_editor_window()
+root_window.set_as_owner(widget.winId())
 ```
 
 (no need to allocate a new Qt app, or start it, as the UE4 Editor, thanks to to ueqt module is now the Qt app itself)
+
+Note the 2 final lines: they 'attach' the Qt window as a 'child' of the editor root window. Note that on windows platform this is not simple parenting but 'ownership'.
 
 Memory management
 -----------------
@@ -860,6 +872,7 @@ Starting from release 20180226 a new memory management system has been added (FU
 
 The same system works for delegates, as well as Slate.
 
+More details here: https://github.com/20tab/UnrealEnginePython/blob/master/docs/MemoryManagement.md
 
 Unit Testing
 ------------

@@ -20,16 +20,21 @@
 #define PROJECT_CONTENT_DIR FPaths::GameContentDir()
 #endif
 
+#if PLATFORM_MAC
+#include "Runtime/Core/Public/Mac/CocoaThread.h"
+#endif
+
 void unreal_engine_init_py_module();
 void init_unreal_engine_builtin();
 
-#if defined(UNREAL_ENGINE_PYTHON_ON_LINUX)
+#if PLATFORM_LINUX
 const char *ue4_module_options = "linux_global_symbols";
 #endif
 
-#if PY_MAJOR_VERSION < 3
-char *PyUnicode_AsUTF8(PyObject *py_str)
+
+const char *UEPyUnicode_AsUTF8(PyObject *py_str)
 {
+#if PY_MAJOR_VERSION < 3
 	if (PyUnicode_Check(py_str))
 	{
 		PyObject *unicode = PyUnicode_AsUTF8String(py_str);
@@ -40,9 +45,15 @@ char *PyUnicode_AsUTF8(PyObject *py_str)
 		// just a hack to avoid crashes
 		return (char *)"<invalid_string>";
 	}
-	return PyString_AsString(py_str);
+	return (const char *)PyString_AsString(py_str);
+#elif PY_MINOR_VERSION < 7
+	return (const char *)PyUnicode_AsUTF8(py_str);
+#else
+	return PyUnicode_AsUTF8(py_str);
+#endif
 }
 
+#if PY_MAJOR_VERSION < 3
 int PyGILState_Check()
 {
 	PyThreadState * tstate = _PyThreadState_Current;
@@ -69,13 +80,38 @@ bool PyUnicodeOrString_Check(PyObject *py_obj)
 
 void FUnrealEnginePythonModule::UESetupPythonInterpreter(bool verbose)
 {
+	const TCHAR* CommandLine = FCommandLine::GetOriginal();
+	const SIZE_T CommandLineSize = FCString::Strlen(CommandLine) + 1;
+	TCHAR* CommandLineCopy = new TCHAR[CommandLineSize];
+	FCString::Strcpy(CommandLineCopy, CommandLineSize, CommandLine);
+	const TCHAR* ParsedCmdLine = CommandLineCopy;
+
+	TArray<FString> Args;
+	for (;;)
+	{
+		FString Arg = FParse::Token(ParsedCmdLine, 0);
+		if (Arg.Len() <= 0)
+			break;
+		Args.Add(Arg);
+	}
 
 #if PY_MAJOR_VERSION >= 3
-	wchar_t *argv[] = { UTF8_TO_TCHAR("UnrealEngine"), NULL };
+	wchar_t **argv = (wchar_t **)FMemory::Malloc(sizeof(wchar_t *) * (Args.Num() + 1));
 #else
-	char *argv[] = { (char *)"UnrealEngine", NULL };
+	char **argv = (char **)FMemory::Malloc(sizeof(char *) * (Args.Num() + 1));
 #endif
-	PySys_SetArgv(1, argv);
+	argv[Args.Num()] = nullptr;
+
+	for (int32 i = 0; i < Args.Num(); i++)
+	{
+#if PY_MAJOR_VERSION >= 3
+		argv[i] = (wchar_t *)(*Args[i]);
+#else
+		argv[i] = TCHAR_TO_UTF8(*Args[i]);
+#endif
+	}
+
+	PySys_SetArgv(Args.Num(), argv);
 
 	unreal_engine_init_py_module();
 
@@ -363,13 +399,24 @@ void FUnrealEnginePythonModule::StartupModule()
 	}
 	else
 	{
-		// TODO gracefully manage the error
+#if PY_MAJOR_VERSION >= 3 && PY_MINOR_VERSION >= 6
+		if (PyErr_ExceptionMatches(PyExc_ModuleNotFoundError))
+		{
+			UE_LOG(LogPython, Log, TEXT("ue_site Python module not found"));
+			PyErr_Clear();
+		}
+		else
+		{
+			unreal_engine_py_log_error();
+		}
+#else
 		unreal_engine_py_log_error();
-	}
+#endif
+		}
 
 	// release the GIL
 	PyThreadState *UEPyGlobalState = PyEval_SaveThread();
-}
+	}
 
 void FUnrealEnginePythonModule::ShutdownModule()
 {
@@ -396,6 +443,22 @@ void FUnrealEnginePythonModule::RunString(char *str)
 	}
 	Py_DECREF(eval_ret);
 }
+
+#if PLATFORM_MAC
+void FUnrealEnginePythonModule::RunStringInMainThread(char *str)
+{
+	MainThreadCall(^{
+	RunString(str);
+		});
+}
+
+void FUnrealEnginePythonModule::RunFileInMainThread(char *filename)
+{
+	MainThreadCall(^{
+	RunFile(filename);
+		});
+}
+#endif
 
 FString FUnrealEnginePythonModule::Pep8ize(FString Code)
 {
@@ -434,7 +497,7 @@ FString FUnrealEnginePythonModule::Pep8ize(FString Code)
 		return Code;
 	}
 
-	char *pep8ized = PyUnicode_AsUTF8(ret);
+	const char *pep8ized = UEPyUnicode_AsUTF8(ret);
 	FString NewCode = FString(pep8ized);
 	Py_DECREF(ret);
 
@@ -504,7 +567,7 @@ void FUnrealEnginePythonModule::RunFile(char *filename)
 	{
 		unreal_engine_py_log_error();
 		return;
-	}
+}
 #endif
 
 }

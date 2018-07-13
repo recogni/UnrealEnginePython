@@ -15,10 +15,10 @@
 #if defined(UNREAL_ENGINE_PYTHON_ON_MAC)
 #include <Headers/Python.h>
 #include <Headers/structmember.h>
-#elif defined(UNREAL_ENGINE_PYTHON_ON_LINUX)
+#elif PLATFORM_LINUX
 #include <Python.h>
 #include <structmember.h>
-#else
+#elif PLATFORM_WINDOWS
 #include <include/pyconfig.h>
 #ifndef SIZEOF_PID_T
 #define SIZEOF_PID_T 4
@@ -63,8 +63,10 @@ UNREALENGINEPYTHON_API PyObject *ue_py_register_module(const char *);
 		return -1;\
 	}
 
+
+const char *UEPyUnicode_AsUTF8(PyObject *py_str);
+
 #if PY_MAJOR_VERSION < 3
-char *PyUnicode_AsUTF8(PyObject *py_str);
 int PyGILState_Check();
 #endif
 bool PyUnicodeOrString_Check(PyObject *py_obj);
@@ -104,6 +106,11 @@ public:
 	void RunString(char *);
 	void RunFile(char *);
 
+#if PLATFORM_MAC
+	void RunStringInMainThread(char *);
+	void RunFileInMainThread(char *);
+#endif
+
 	void UESetupPythonInterpreter(bool);
 
 	TArray<FString> ScriptsPaths;
@@ -140,7 +147,3 @@ struct FScopePythonGIL
 		PyGILState_Release(state);
 	}
 };
-
-
-
-

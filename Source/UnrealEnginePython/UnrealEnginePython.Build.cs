@@ -18,6 +18,7 @@ public class UnrealEnginePython : ModuleRules
 
     private string[] windowsKnownPaths =
     {
+        "C:/Program Files/Python37",
         "C:/Program Files/Python36",
         "C:/Program Files/Python35",
         "C:/Python27",
@@ -26,9 +27,11 @@ public class UnrealEnginePython : ModuleRules
 
     private string[] macKnownPaths =
     {
+        "/Library/Frameworks/Python.framework/Versions/3.7",
         "/Library/Frameworks/Python.framework/Versions/3.6",
         "/Library/Frameworks/Python.framework/Versions/3.5",
         "/Library/Frameworks/Python.framework/Versions/2.7",
+        "/System/Library/Frameworks/Python.framework/Versions/3.7",
         "/System/Library/Frameworks/Python.framework/Versions/3.6",
         "/System/Library/Frameworks/Python.framework/Versions/3.5",
         "/System/Library/Frameworks/Python.framework/Versions/2.7"
@@ -36,20 +39,35 @@ public class UnrealEnginePython : ModuleRules
 
     private string[] linuxKnownIncludesPaths =
     {
+<<<<<<< Updated upstream
+        "/usr/local/include/python3.7",
+        "/usr/local/include/python3.7m",
+=======
+        "/usr/include/python2.7",    
+>>>>>>> Stashed changes
         "/usr/local/include/python3.6",
         "/usr/local/include/python3.6m",
         "/usr/local/include/python3.5",
         "/usr/local/include/python3.5m",
         "/usr/local/include/python2.7",
+        "/usr/include/python3.7",
+        "/usr/include/python3.7m",
         "/usr/include/python3.6",
         "/usr/include/python3.6m",
         "/usr/include/python3.5",
-        "/usr/include/python3.5m",
-        "/usr/include/python2.7",
+        "/usr/include/python3.5m"
     };
 
     private string[] linuxKnownLibsPaths =
     {
+<<<<<<< Updated upstream
+        "/usr/local/lib/libpython3.7.so",
+        "/usr/local/lib/libpython3.7m.so",
+        "/usr/local/lib/x86_64-linux-gnu/libpython3.7.so",
+        "/usr/local/lib/x86_64-linux-gnu/libpython3.7m.so",
+=======
+        "/usr/lib/x86_64-linux-gnu/libpython2.7.so",    
+>>>>>>> Stashed changes
         "/usr/local/lib/libpython3.6.so",
         "/usr/local/lib/libpython3.6m.so",
         "/usr/local/lib/x86_64-linux-gnu/libpython3.6.so",
@@ -60,6 +78,10 @@ public class UnrealEnginePython : ModuleRules
         "/usr/local/lib/x86_64-linux-gnu/libpython3.5m.so",
         "/usr/local/lib/libpython2.7.so",
         "/usr/local/lib/x86_64-linux-gnu/libpython2.7.so",
+        "/usr/lib/libpython3.7.so",
+        "/usr/lib/libpython3.7m.so",
+        "/usr/lib/x86_64-linux-gnu/libpython3.7.so",
+        "/usr/lib/x86_64-linux-gnu/libpython3.7m.so",
         "/usr/lib/libpython3.6.so",
         "/usr/lib/libpython3.6m.so",
         "/usr/lib/x86_64-linux-gnu/libpython3.6.so",
@@ -69,7 +91,6 @@ public class UnrealEnginePython : ModuleRules
         "/usr/lib/x86_64-linux-gnu/libpython3.5.so",
         "/usr/lib/x86_64-linux-gnu/libpython3.5m.so",
         "/usr/lib/libpython2.7.so",
-        "/usr/lib/x86_64-linux-gnu/libpython2.7.so",
     };
 
 #if WITH_FORWARDED_MODULE_RULES_CTOR
@@ -218,7 +239,6 @@ public class UnrealEnginePython : ModuleRules
             string libPath = GetMacPythonLibFile(pythonHome);
             PublicLibraryPaths.Add(Path.GetDirectoryName(libPath));
             PublicDelayLoadDLLs.Add(libPath);
-            Definitions.Add(string.Format("UNREAL_ENGINE_PYTHON_ON_MAC"));
         }
         else if (Target.Platform == UnrealTargetPlatform.Linux)
         {
@@ -243,7 +263,6 @@ public class UnrealEnginePython : ModuleRules
                 PublicIncludePaths.Add(items[0]);
                 PublicAdditionalLibraries.Add(items[1]);
             }
-            Definitions.Add(string.Format("UNREAL_ENGINE_PYTHON_ON_LINUX"));
         }
 
     }
