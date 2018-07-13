@@ -39,12 +39,7 @@ public class UnrealEnginePython : ModuleRules
 
     private string[] linuxKnownIncludesPaths =
     {
-<<<<<<< Updated upstream
-        "/usr/local/include/python3.7",
-        "/usr/local/include/python3.7m",
-=======
         "/usr/include/python2.7",    
->>>>>>> Stashed changes
         "/usr/local/include/python3.6",
         "/usr/local/include/python3.6m",
         "/usr/local/include/python3.5",
@@ -60,14 +55,7 @@ public class UnrealEnginePython : ModuleRules
 
     private string[] linuxKnownLibsPaths =
     {
-<<<<<<< Updated upstream
-        "/usr/local/lib/libpython3.7.so",
-        "/usr/local/lib/libpython3.7m.so",
-        "/usr/local/lib/x86_64-linux-gnu/libpython3.7.so",
-        "/usr/local/lib/x86_64-linux-gnu/libpython3.7m.so",
-=======
         "/usr/lib/x86_64-linux-gnu/libpython2.7.so",    
->>>>>>> Stashed changes
         "/usr/local/lib/libpython3.6.so",
         "/usr/local/lib/libpython3.6m.so",
         "/usr/local/lib/x86_64-linux-gnu/libpython3.6.so",
